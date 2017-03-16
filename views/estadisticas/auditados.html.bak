@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<h1>Cantidad de Auditados por dia</h1>
+<h3>
+    La cantidad total de egresados es: {{=total}}
+</h3>
+<h4>
+    aceptados es: {{=aceptados}}
+    <br/>
+    rechazados es: {{=rechazados}}
+</h4>
+</br>
+{{=BEAUTIFY(form)}}

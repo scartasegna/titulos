@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla estadisticas/egresados.html</h1>
+<h3>
+    La cantidad total de egresados es : {{=total}}
+</h3>
+{{=BEAUTIFY(total)}}
+{{=BEAUTIFY(form)}}

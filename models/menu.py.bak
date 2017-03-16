@@ -1,0 +1,16 @@
+response.title = settings.title
+response.subtitle = settings.subtitle
+response.meta.author = '%(author)s <%(author_email)s>' % settings
+response.meta.keywords = settings.keywords
+response.meta.description = settings.description
+response.menu = [
+(T('Inicio'),URL('default','index')==URL(),URL('default','index'),[]),
+(T('Cargar Titulos'),URL('default','titulos_usuarios')==URL(),URL('default','titulos_usuarios'),[]),
+]
+
+
+if auth.user:
+    groups = db((db.auth_membership.user_id==auth.user.id)& (db.auth_membership.group_id==db.auth_group.id)).select(db.auth_group.role)
+    for group in groups:
+        if group.role =='jefe':
+            response.menu.append(('VIP Only', False,  URL('default','titulos_manage')))

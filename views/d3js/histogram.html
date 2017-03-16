@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+{{=title}}
+{{from gluon.serializers import json}}
+<script type="text/javascript">
+var dataset = {{=XML(json(dataset))}};
+d3.select("body").selectAll("p")
+    .data(dataset)
+    .enter()
+    .append("p")
+    .text("New paragraph!");
+</script>

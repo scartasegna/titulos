@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla estadisticas/impresos.html</h1>
+
+#La cantidad total de impresos es : {{=total}}
+
+<br/>
+{{=BEAUTIFY(form)}}
