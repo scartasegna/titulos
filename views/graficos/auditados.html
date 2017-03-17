@@ -1,0 +1,48 @@
+{{extend 'layout.html'}}
+<h1>
+    Total de egresador por fecha
+</h1>
+{{from gluon.serializers import json}}
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById("myChart");
+var dataA = {{=XML(json(dataA))}}
+var colorBackA={{=XML(json(colorA1))}}
+var colorLineA={{=XML(json(colorAL))}}
+var dataB = {{=XML(json(dataB))}}
+var labels = {{=XML(json(labels))}}
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Aceptados por fecha',
+            data: dataA,
+            backgroundColor: colorBackA,
+            borderColor: colorLineA,
+            borderWidth: 1},{
+            label: 'Rechazados por fecha',
+            data: dataB,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
