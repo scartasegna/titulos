@@ -1,3 +1,9 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla egresados/cargarEgresados.html</h1>
-{{=BEAUTIFY(response._vars)}}
+<h1>Cantidad de egresados por año</h1>
+{{=DIV('ayuda', _onclick="jQuery(this).fadeOut()")}}
+<p>
+    En esta pantalla se encuentran cargados los años y la cantidad de egresados.<br/>
+    Para actualizar la cantidad haga clic en el boton editar y luego actualice la cantidad.<br/>
+    Tenga en cuenta que el numero de egresados <b>no puede modificarse por uno menor</b><br/>
+</p>
+{{=BEAUTIFY(form)}}

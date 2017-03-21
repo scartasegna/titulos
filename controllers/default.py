@@ -10,12 +10,12 @@ def index():
 def error():
     return dict()
 
-@auth.requires_login()
+@auth.requires_membership('manager')
 def titulos_manage():
     form = SQLFORM.smartgrid(db.t_titulos_impresos,onupdate=auth.archive)
     return locals()
 
-@auth.requires_login()
+@auth.requires_membership('manager')
 def titulos_resumen():
     form = SQLFORM.grid(db.t_resumen_impresos)
     return dict(form=form)

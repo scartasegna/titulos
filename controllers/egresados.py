@@ -17,3 +17,9 @@ def no_es_menor(form):
             form.errors.f_egresados = 'La cantidad de egresados no puede ser menor al valor anterior (%s)' % (r.f_egresados)
         if form.vars.f_anio != r.f_anio:
             form.errors.f_anio = 'El Año no puede modificarse (%s)' % (r.f_anio)
+    else:
+        #verificamos que no sea un anio repetido
+        r = db(db.t_egresados.f_anio==form.vars.f_anio).select().first()
+        print(r)
+        if r != None:
+            form.errors.f_anio = 'El Año (%s) ya esta ingresado. Por favor actualicelo' % (r.f_anio)

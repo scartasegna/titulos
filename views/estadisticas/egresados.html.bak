@@ -3,5 +3,5 @@
 <h3>
     La cantidad total de egresados es : {{=total}}
 </h3>
-{{=BEAUTIFY(total)}}
+<br/>
 {{=BEAUTIFY(form)}}
