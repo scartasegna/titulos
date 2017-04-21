@@ -4,7 +4,7 @@ response.meta.author = '%(author)s <%(author_email)s>' % settings
 response.meta.keywords = settings.keywords
 response.meta.description = settings.description
 response.menu = [
-(T('Index'),URL('default','index')==URL(),URL('default','index'),[]),
+(T('Inicio'),URL('default','index')==URL(),URL('default','index'),[]),
 ]
 
 if auth.user:
@@ -16,6 +16,13 @@ if auth.user:
             response.menu.append(('Egresados', URL()==URL('titulos','egresados'), URL('egresados','cargarEgresados')))
         if group.role =='auditados':
             response.menu.append(('Auditados', URL()==URL('titulos','auditados'), URL('auditados','cargarAuditados')))
+        if group.role =='autoridades':
+            response.menu.append(('Vision', False, None,[
+                        ('Auditados', URL()==URL('autoridades', 'auditados'), URL('autoridades', 'auditados')),
+                        ('Egresados', URL()==URL('autoridades', 'egresados'), URL('autoridades', 'egresados')),
+                        ('Impresos', URL()==URL('autoridades', 'auditados'), URL('autoridades', 'impresos')),
+                    ]))
+
         if group.role =='estadisticas':
             response.menu.append(('Estadisticas', False, None,[
                         ('Auditados', URL()==URL('titulos', 'estadisticas'), URL('estadisticas', 'auditados')),
@@ -23,11 +30,7 @@ if auth.user:
                         ('Impresos', URL()==URL('titulos', 'estadisticas'), URL('estadisticas', 'impresos')),
                     ]))
             response.menu.append(('Graficos', False, None,[
-                        ('Auditados', URL()==URL('titulos', 'graficos'), URL('graficos', 'auditados')),
+                      #  ('Auditados', URL()==URL('titulos', 'graficos'), URL('graficos', 'auditados')),
                         ('Egresados', URL()==URL('titulos', 'graficos'), URL('graficos', 'otro')),
-                        ('Impresos', URL()==URL('titulos', 'graficos'), URL('graficos', 'impresos')),
+                      #  ('Impresos', URL()==URL('titulos', 'graficos'), URL('graficos', 'impresos')),
                     ]))
-
-            
-            ('Search', False, None,
-  )
