@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# intente algo como
 
 @auth.requires_membership('titulos')
 def titulos_impresos():
     db.t_titulos_impresos.f_cargo.readable = False
     db.t_titulos_impresos.id.readable = False
     query=(db.t_titulos_impresos.f_cargo==auth.user_id)
-    form = SQLFORM.smartgrid(db.t_titulos_impresos,onupdate=auth.archive,deletable=False,csv = False,constraints = dict(t_titulos_impresos=query), onvalidation=yaCargo)
+    form = SQLFORM.smartgrid(db.t_titulos_impresos , onupdate=auth.archive,deletable=False, csv = False, constraints = dict(t_titulos_impresos=query) ,  orderby=~db.t_titulos_impresos.f_fecha, onvalidation=yaCargo)
     return dict(form=form)
 
 def yaCargo(form):
@@ -17,10 +16,10 @@ def yaCargo(form):
     else:
         #Verificamos que solamente ingresen 1 registro por dia
         now =request.now.date
-        r = db(db.t_titulos_impresos.f_fecha==request.now.date).select().first()
+        r = db((db.t_titulos_impresos.f_fecha==request.now.date) & (db.t_titulos_impresos.f_cargo==auth.user_id) ).select().first()
         if r != None:
             response.flash = 'Ya ingreso un registro para la fecha (%s). Por favor actualicelo' % (request.now.date().strftime("%d-%m-%Y"))
-            form.errors.f_aceptados = 'Ya ingreso un registro para la fecha (%s). Por favor actualicelo' % (request.now.date().strftime("%d-%m-%Y"))
+            form.errors.f_region1 = 'Ya ingreso un registro para la fecha (%s). Por favor actualicelo' % (request.now.date().strftime("%d-%m-%Y"))
 
 def verificar_suma(form):
     regiones = form.vars.f_region1 + form.vars.f_region2 + form.vars.f_region3 + form.vars.f_region4 + form.vars.f_region5
