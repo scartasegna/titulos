@@ -1,7 +1,0 @@
-{{extend 'layout.html'}}
-<h1>Titulos impresos por día</h1>
-<h3>
-    La cantidad total de impresos es : {{=total}}
-</h3>
-<br/>
-{{=BEAUTIFY(form)}}

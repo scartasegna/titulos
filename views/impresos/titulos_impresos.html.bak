@@ -1,3 +1,0 @@
-{{extend 'layout.html'}}
-<h1>Titulos Impresos por dia</h1>
-{{=BEAUTIFY(form)}}

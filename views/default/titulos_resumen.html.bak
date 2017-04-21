@@ -1,4 +1,0 @@
-{{extend 'layout.html'}}
-<h1>Resumen Plantilla por Dia</h1>
-{{=SQLTABLE(rows,headers=headers)}}
-<p>{{=form}}</p>
