@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# intente algo como
+
 @auth.requires_membership('estadisticas')
 def impresos():
     db.t_resumen_impresos.id.readable = False
@@ -8,7 +8,7 @@ def impresos():
     sum = db.t_resumen_impresos.f_impresos.sum()
     totalImpresos = db(query).select(sum).first()[sum]
 
-    form = SQLFORM.grid(db.t_resumen_impresos,deletable=False,editable=False)
+    form = SQLFORM.grid(db.t_resumen_impresos,deletable=False,editable=False,orderby=~db.t_resumen_impresos.f_fecha)
     return dict(form=form,total=totalImpresos)
 
 @auth.requires_membership('estadisticas')
@@ -26,7 +26,7 @@ def auditados():
     query = (db.t_resumen_auditados.f_rechazados != 0)
     sum = db.t_resumen_auditados.f_rechazados.sum()
     totalRechazados = db(query).select(sum).first()[sum]
-    form = SQLFORM.grid(db.t_resumen_auditados,deletable=False,editable=False)
+    form = SQLFORM.grid(db.t_resumen_auditados,deletable=False,editable=False,orderby=~db.t_resumen_auditados.f_fecha)
     return dict(form=form,total=totalAuditados,aceptados=totalAceptados,rechazados=totalRechazados)
 
 @auth.requires_membership('estadisticas')
@@ -37,5 +37,5 @@ def egresados():
     sum = db.t_egresados.f_egresados.sum()
     totalEgresados = db(query).select(sum).first()[sum]
 
-    form = SQLFORM.grid(db.t_egresados,deletable=False,editable=False)
+    form = SQLFORM.grid(db.t_egresados,deletable=False,editable=False,orderby=~db.t_egresados.f_anio)
     return dict(form=form,total=totalEgresados)
