@@ -8,6 +8,7 @@ def titulos_impresos():
     form = SQLFORM.smartgrid(db.t_titulos_impresos , onupdate=auth.archive,deletable=False, csv = False, constraints = dict(t_titulos_impresos=query) ,  orderby=~db.t_titulos_impresos.f_fecha, onvalidation=yaCargo)
     return dict(form=form)
 
+@auth.requires_membership('titulos')
 def yaCargo(form):
     #Si estamos editando un campo
     if (request.args[1] == 'edit'):
@@ -21,6 +22,7 @@ def yaCargo(form):
             response.flash = 'Ya ingreso un registro para la fecha (%s). Por favor actualicelo' % (request.now.date().strftime("%d-%m-%Y"))
             form.errors.f_region1 = 'Ya ingreso un registro para la fecha (%s). Por favor actualicelo' % (request.now.date().strftime("%d-%m-%Y"))
 
+@auth.requires_membership('titulos')
 def verificar_suma(form):
     regiones = form.vars.f_region1 + form.vars.f_region2 + form.vars.f_region3 + form.vars.f_region4 + form.vars.f_region5
     regiones = regiones + form.vars.f_region6 + form.vars.f_region7 + form.vars.f_region8 + form.vars.f_region9

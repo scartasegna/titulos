@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-# intente algo como
-def egresados():
-    response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
-    return dict( title='Charts!')
 
+@auth.requires_membership('estadisticas')
 def otro():
     response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
     #calculamos la cantidad total de impresos
@@ -20,6 +17,7 @@ def otro():
         labels.append(r.f_anio)
     return dict(data=data,labels=labels,total=totalEgresados)
 
+@auth.requires_membership('estadisticas')
 def auditados():
     response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
     #calculamos la cantidad total de impresos
