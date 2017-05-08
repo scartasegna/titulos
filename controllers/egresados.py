@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-@auth.requires_login()
+@auth.requires_membership('egresados')
 def cargarEgresados():
     db.t_egresados.id.readable = False
     db.t_egresados.f_cargo.readable = False
-    form = SQLFORM.smartgrid(db.t_egresados,onupdate=auth.archive,deletable=False,csv=False,details=False,searchable=False,onvalidation=no_es_menor)
+    form = SQLFORM.smartgrid(db.t_egresados, onupdate=auth.archive, deletable=False, csv=False, details=False, searchable=False,  orderby=~db.t_egresados.f_anio, onvalidation=no_es_menor, linked_tables=[])
     return locals()
 
+@auth.requires_membership('egresados')
 def no_es_menor(form):
     #Si estamos editando un campo
     if (request.args[1] == 'edit'):
@@ -13,8 +14,10 @@ def no_es_menor(form):
         idUpdate = request.args[3]
         #traemos el registro del valor
         r = db(db.t_egresados.id==idUpdate).select().first()
-        if form.vars.f_egresados < r.f_egresados:
-            form.errors.f_egresados = 'La cantidad de egresados no puede ser menor al valor anterior (%s)' % (r.f_egresados)
+        if form.vars.f_egresados > 0:
+            form.vars.f_egresados = r.f_egresados + form.vars.f_egresados
+        else:
+            form.errors.f_egresados = 'La cantidad de egresados a sumar no puede ser menor a 0 (%s)' % (form.vars.f_egresados)
         if form.vars.f_anio != r.f_anio:
             form.errors.f_anio = 'El Año no puede modificarse (%s)' % (r.f_anio)
     else:
