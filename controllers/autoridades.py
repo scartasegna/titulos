@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# try something like
-def index(): return dict(message="hello from autoridades.py")
 
 @auth.requires_membership('autoridades')
 def auditados():
@@ -12,6 +10,7 @@ def auditados():
     form = SQLFORM.smartgrid(db.t_titulos_auditados, onupdate=auth.archive, editable = permisoUsuario ,deletable=False, csv = permisoUsuario, onvalidation=yaCargoAuditados,orderby=~db.t_titulos_auditados.f_fecha)
     return dict(form=form)
 
+@auth.requires_membership('autoridades')
 def yaCargoAuditados(form):
     #Si estamos editando un campo
     if (request.args[1] == 'edit'):
@@ -38,6 +37,7 @@ def impresos():
     form = SQLFORM.smartgrid(db.t_titulos_impresos,onupdate=auth.archive,csv = True, onvalidation=yaCargoImpresos)
     return dict(form=form)
 
+@auth.requires_membership('autoridades')
 def yaCargoImpresos(form):
     #Si estamos editando un campo
     if (request.args[1] == 'edit'):
