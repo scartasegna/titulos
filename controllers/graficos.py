@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-
 @auth.requires_membership('estadisticas')
 def otro():
+    """
+    Gets all the data to display the number of Egresados by year in a cake graph
+    """
     response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
-    #calculamos la cantidad total de impresos
     query = (db.t_egresados.f_egresados != 0)
     sum =db.t_egresados.f_egresados.sum()
     totalEgresados = db(query).select(sum).first()[sum]
@@ -19,6 +20,9 @@ def otro():
 
 @auth.requires_membership('estadisticas')
 def auditados():
+    """
+    Gets all the data to display the number of Auditados (aceptados and rechazados) per day in a cake graph
+    """
     response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
     #calculamos la cantidad total de impresos
     query = (db.t_resumen_auditados.f_auditados != 0)

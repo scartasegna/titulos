@@ -2,8 +2,10 @@
 
 @auth.requires_membership('estadisticas')
 def impresos():
+    """
+    Gets all the data to display the number of Impresos per day from the resumen_impresos table
+    """
     db.t_resumen_impresos.id.readable = False
-    #calculamos la cantidad total de impresos
     query = (db.t_resumen_impresos.f_impresos != 0)
     sum = db.t_resumen_impresos.f_impresos.sum()
     totalImpresos = db(query).select(sum).first()[sum]
@@ -13,16 +15,17 @@ def impresos():
 
 @auth.requires_membership('estadisticas')
 def auditados():
+    """
+    Gets all the data to display the number of Auditados per day from the resumen_impresos table
+    Also shows the total sum of rechazados, aceptados and auditados
+    """
     db.t_resumen_auditados.id.readable = False
-    #calculamos la cantidad total de auditados
     query = (db.t_resumen_auditados.f_auditados != 0)
     sum = db.t_resumen_auditados.f_auditados.sum()
     totalAuditados = db(query).select(sum).first()[sum]
-    #Total Aceptados
     query = (db.t_resumen_auditados.f_aceptados != 0)
     sum = db.t_resumen_auditados.f_aceptados.sum()
     totalAceptados = db(query).select(sum).first()[sum]
-    #Total Rechazados
     query = (db.t_resumen_auditados.f_rechazados != 0)
     sum = db.t_resumen_auditados.f_rechazados.sum()
     totalRechazados = db(query).select(sum).first()[sum]
@@ -31,8 +34,10 @@ def auditados():
 
 @auth.requires_membership('estadisticas')
 def egresados():
+    """
+    Gets all the data to display the number of Egresados per year from the Egresados table
+    """
     db.t_egresados.id.readable = False
-    #calculamos la cantidad total de egresados
     query = (db.t_egresados.f_egresados != 0)
     sum = db.t_egresados.f_egresados.sum()
     totalEgresados = db(query).select(sum).first()[sum]

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 @auth.requires_membership('auditados')
 def cargarAuditados():
+    """
+    Gets all the data created by user and lets add new data
+    Shows all that users had created. Adds also exportable data for an especific user
+    """
     db.t_titulos_auditados.f_cargo.readable = False
     db.t_titulos_auditados.id.readable = False
     #obtenemos la zona del usuario
@@ -11,12 +15,13 @@ def cargarAuditados():
     return dict(form=form)
 
 def yaCargo(form):
-    #Si estamos editando un campo
+    """
+    Checks that all the user has not added a record for the date
+    revices the form as param
+    """
     if (request.args[1] == 'edit'):
-        #obtenemos el id del campo a modificar
         idUpdate = request.args[3]
     else:
-        #Verificamos que solamente ingresen 1 registro por dia
         now =request.now.date
         r = db((db.t_titulos_auditados.f_fecha==request.now.date) & (db.t_titulos_auditados.f_cargo==auth.user_id)).select().first()
         if r != None:
@@ -25,6 +30,10 @@ def yaCargo(form):
     verificar_suma(form)
 
 def verificar_suma(form):
+    """
+    Checks that all the sum of regionX equals the number of auditados
+    revices the form as param
+    """
     regiones = (form.vars.f_region1 or 0) + (form.vars.f_region2 or 0) + (form.vars.f_region3 or 0) + (form.vars.f_region4 or 0)
     regiones = regiones + (form.vars.f_region5 or 0) + (form.vars.f_region6 or 0) + (form.vars.f_region7 or 0) + (form.vars.f_region8 or 0)
     regiones = regiones + (form.vars.f_region9 or 0) + (form.vars.f_region10 or 0) + (form.vars.f_region11 or 0) +(form.vars.f_region12 or 0)
@@ -39,6 +48,9 @@ def verificar_suma(form):
         form.errors.f_aceptados = 'La cantidad de Audtidatos (%s) no puede ser distinto a la suma de las regiones (%s) ' % (total,regiones)
 
 def habilitarZonas(groups):
+    """
+    Defines the records to show according to the zona that the user has assigned
+    """
     for group in groups:
         #zona1
         if group.role =='zona1':

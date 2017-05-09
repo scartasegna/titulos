@@ -2,6 +2,10 @@
 
 @auth.requires_membership('autoridades')
 def auditados():
+    """
+    Gets all the data created by user and lets add new data
+    Shows all that users had created. Adds also exportable data for an especific user
+    """
     db.t_titulos_auditados.id.readable = False
     query=(db.t_titulos_auditados.f_cargo==auth.user_id)
     permisoUsuario=False
@@ -12,12 +16,9 @@ def auditados():
 
 @auth.requires_membership('autoridades')
 def yaCargoAuditados(form):
-    #Si estamos editando un campo
     if (request.args[1] == 'edit'):
-        #obtenemos el id del campo a modificar
         idUpdate = request.args[3]
     else:
-        #Verificamos que solamente ingresen 1 registro por dia
         now =request.now.date
         r = db(db.t_titulos_auditados.f_fecha==request.now.date).select().first()
         if r != None:
@@ -26,12 +27,20 @@ def yaCargoAuditados(form):
 
 @auth.requires_membership('autoridades')
 def egresados():
+    """
+    Gets all the data created by user and lets add new data
+    Shows all that users had created.
+    """
     db.t_egresados.id.readable = False
     form = SQLFORM.smartgrid(db.t_egresados,onupdate=auth.archive,csv=True,details=False,searchable=False)
     return dict(form=form)
 
 @auth.requires_membership('autoridades')
 def impresos():
+    """
+    Gets all the data created by user and lets add new data
+    Shows all that users had created. Adds also exportable data for an especific user
+    """
     db.t_titulos_impresos.id.readable = False
     query=(db.t_titulos_impresos.f_cargo==auth.user_id)
     form = SQLFORM.smartgrid(db.t_titulos_impresos,onupdate=auth.archive,csv = True, onvalidation=yaCargoImpresos)
@@ -39,12 +48,9 @@ def impresos():
 
 @auth.requires_membership('autoridades')
 def yaCargoImpresos(form):
-    #Si estamos editando un campo
     if (request.args[1] == 'edit'):
-        #obtenemos el id del campo a modificar
         idUpdate = request.args[3]
     else:
-        #Verificamos que solamente ingresen 1 registro por dia
         now =request.now.date
         r = db(db.t_titulos_impresos.f_fecha==request.now.date).select().first()
         if r != None:

@@ -2,6 +2,10 @@
 
 @auth.requires_membership('titulos')
 def titulos_impresos():
+    """
+    Gets all the data created by user and lets add new data
+    Only shows what the user has created
+    """
     db.t_titulos_impresos.f_cargo.readable = False
     db.t_titulos_impresos.id.readable = False
     query=(db.t_titulos_impresos.f_cargo==auth.user_id)
@@ -10,12 +14,12 @@ def titulos_impresos():
 
 @auth.requires_membership('titulos')
 def yaCargo(form):
-    #Si estamos editando un campo
+    """
+    Verify that the user is instering only 1 register per day
+    """
     if (request.args[1] == 'edit'):
-        #obtenemos el id del campo a modificar
         idUpdate = request.args[3]
     else:
-        #Verificamos que solamente ingresen 1 registro por dia
         now =request.now.date
         r = db((db.t_titulos_impresos.f_fecha==request.now.date) & (db.t_titulos_impresos.f_cargo==auth.user_id) ).select().first()
         if r != None:
@@ -24,6 +28,9 @@ def yaCargo(form):
 
 @auth.requires_membership('titulos')
 def verificar_suma(form):
+    """
+    Recives the form and compare the sums of all the data and the numbers of titulos that has been printed
+    """
     regiones = form.vars.f_region1 + form.vars.f_region2 + form.vars.f_region3 + form.vars.f_region4 + form.vars.f_region5
     regiones = regiones + form.vars.f_region6 + form.vars.f_region7 + form.vars.f_region8 + form.vars.f_region9
     regiones = regiones + form.vars.f_region10 + form.vars.f_region11 + form.vars.f_region12 + form.vars.f_region13
