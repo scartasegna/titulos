@@ -19,6 +19,28 @@ def otro():
     return dict(data=data,labels=labels,total=totalEgresados)
 
 @auth.requires_membership('estadisticas')
+def auditadosPU():
+    """
+    Gets all the data to display the number of Egresados by year in a cake graph
+    """
+    response.files.append('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js')
+    query = (db.t_titulos_auditados.f_aceptados != 0)
+    sum =db.t_titulos_auditados.f_aceptados.sum() + db.t_titulos_auditados.f_rechazados.sum()
+    rows = db(query).select(*[sum,db.t_titulos_auditados.f_cargo],groupby=db.t_titulos_auditados.f_cargo)
+    data = []
+    labels = []
+    print (rows)
+    for r in rows:
+        print(r)
+        query = (db.auth_user.id == r.t_titulos_auditados.f_cargo)
+        apellido =db.auth_user.last_name
+        ape = db(query).select(apellido).first()[apellido]
+        print(ape)
+        data.append(r._extra[db.t_titulos_auditados.f_aceptados.sum() + db.t_titulos_auditados.f_rechazados.sum()])
+        labels.append(ape)
+    return dict(data=data,labels=labels)
+
+@auth.requires_membership('estadisticas')
 def auditados():
     """
     Gets all the data to display the number of Auditados (aceptados and rechazados) per day in a cake graph
